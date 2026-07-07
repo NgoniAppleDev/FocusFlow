@@ -12,3 +12,9 @@ Follow the journey of building FocusFlow step-by-step, from creating the initial
 
 ### Step 3: Complete a Habit
 - <doc:CompletingAHabit>
+
+### Product Thinking Interlude: Add a Habit Design
+- <doc:AddHabitDesign>
+
+### Step 4: Add a Habit
+- <doc:AddHabit>
