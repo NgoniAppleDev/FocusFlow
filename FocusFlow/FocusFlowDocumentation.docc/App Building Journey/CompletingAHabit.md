@@ -82,6 +82,40 @@ Text(habits[index].name)
 
 It's not perfect yet, but **it works**.
 
+## Git Checkpoint
+
+### Commit
+This is a great point to commit.
+
+**Commit message**
+```
+feat: allow users to complete habits
+```
+
+### Pull Request & Merge
+
+Then, I merge the **feat/habit-list** branch into **main** branch.
+
+**My PR title**:
+```
+Feat: allow users to complete habits
+```
+
+**My PR message**:
+```
+## Summary
+
+I added the ability to allow users to complete habits.
+
+## Files changed
+
+- ContentView.swift
+- Habit.swift
+```
+
+## Delete feat/habit-list branch
+
+Then I deleted the old branch.
 
 ## Next Up
 - 
