@@ -1,4 +1,4 @@
-# Creating the SwiftUI Project
+# 1. Creating the SwiftUI Project
 
 Creating the initial project.
 
@@ -35,3 +35,6 @@ git add remote origin https://github.com/NgoniAppleDev/FocusFlow.git
 ```
 
 After that, I opened my project in GitHub Desktop, and then pushed my changes to the remote repository.
+
+## Next Up
+- <doc:CreatingListOfHabits>
