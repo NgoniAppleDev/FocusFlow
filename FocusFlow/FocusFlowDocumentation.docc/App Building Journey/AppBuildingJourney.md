@@ -9,3 +9,6 @@ Follow the journey of building FocusFlow step-by-step, from creating the initial
 
 ### Step 2: Make a List of Habits
 - <doc:CreatingListOfHabits>
+
+### Step 3: Complete a Habit
+- <doc:CompletingAHabit>

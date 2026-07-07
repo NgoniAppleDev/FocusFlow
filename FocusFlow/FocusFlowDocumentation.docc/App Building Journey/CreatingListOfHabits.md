@@ -1,4 +1,4 @@
-# Create a list of habits
+# 2. Create a list of habits
 
 Users can view a list of habits.
 
@@ -31,5 +31,50 @@ Implemented this model in `Habit.swift`
 ```swift
 import Foundation
 
-
+struct Habit {
+    let name: String
+    var isCompleted: Bool
+}
 ```
+
+### Display Habits
+
+So, `ContentView` effectively becomes:
+
+```swift
+struct ContentView: View {
+    @State private var habits: [Habit] = [
+        .init(name: "Workout", isCompleted: false),
+        .init(name: "Read", isCompleted: false),
+        .init(name: "Practice Swift", isCompleted: false)
+    ]
+    
+    var body: some View {
+        List {
+            ForEach(habits.indices, id: \.self) { index in
+                HStack {
+                    Text(habits[index].name)
+                    
+                    Spacer()
+                    
+                    Image(
+                        systemName: habits[index].isCompleted ? "checkmark.circle.fill" : "circle"
+                    )
+                }
+            }
+        }
+    }
+}
+```
+
+That's it.
+
+The simplest implementation of a habit tracking app.
+
+Of course, user's can't completed them yet.
+
+We're going to do that next.
+
+
+## Next Up
+- <doc:CompletingAHabit>
