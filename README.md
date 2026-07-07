@@ -1,6 +1,6 @@
 # FocusFlow App
 
-An iOS app to track habits and goals. 
+A productivity app to track habits and goals.
 
 Built with Swift and SwiftUI. 
 
