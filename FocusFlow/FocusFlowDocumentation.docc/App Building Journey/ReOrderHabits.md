@@ -132,4 +132,4 @@ git commit -m "feat: add habit reordering"
 ```
 
 ## Next Up
-- 
+- <doc:FirstDesignPattern_MVVM>

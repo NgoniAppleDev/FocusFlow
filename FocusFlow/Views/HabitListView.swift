@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  HabitListView.swift
 //  FocusFlow
 //
 //  Created by Ngoni Katsidzira  on 7/7/2026.
@@ -8,11 +8,12 @@
 import SwiftUI
 import SwiftData
 
-struct ContentView: View {
+struct HabitListView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Habit.order)
     private var habits: [Habit]
     
+    @State private var viewModel: ViewModel = .init()
     @State private var showingCreateHabit = false
     
     var body: some View {
@@ -43,12 +44,14 @@ struct ContentView: View {
                                 Image(systemName: habit.isCompleted ? "checkmark.circle.fill" : "circle")
                             }
                             .onTapGesture {
-                                habit.toggle()
+                                viewModel.toggle(habit, using: modelContext)
                             }
                         }
-                        .onDelete(perform: deleteHabits)
-                        .onMove { indices, newOffset in
-                            moveHabit(from: indices, to: newOffset)
+                        .onDelete { indexSet in
+                            viewModel.delete(habits, at: indexSet, using: modelContext)
+                        }
+                        .onMove { indices, destination in
+                            viewModel.move(habits, from: indices, to: destination, using:modelContext)
                         }
                     }
                 }
@@ -61,48 +64,22 @@ struct ContentView: View {
                     }
                 }
                 
-                ToolbarItem(placement: .secondaryAction) {
+                ToolbarItem(placement: .topBarLeading) {
                     EditButton()
                 }
             }
             .sheet(isPresented: $showingCreateHabit) {
                 NavigationStack {
-                    CreateHabitView(onCreate: addHabit(_:))
+                    CreateHabitView { newHabit in
+                        viewModel.add(newHabit, using: modelContext, currentCount: habits.count)
+                    }
                 }
             }
         }
     }
-    
-    private func addHabit(_ newHabit: Habit) {
-        modelContext.insert(newHabit)
-        do {
-            try modelContext.save()
-        } catch {
-            // FIXME: should remove print statement when going into production.
-            print(error)
-        }
-    }
-    
-    private func deleteHabits(at offsets: IndexSet) {
-        for index in offsets {
-            modelContext.delete(habits[index])
-        }
-    }
-    
-    private func moveHabit(from indexSet: IndexSet, to newOffset: Int) {
-        var reorderedHabits = habits
-        
-        reorderedHabits.move(fromOffsets: indexSet, toOffset: newOffset)
-        
-        for (index, habit) in reorderedHabits.enumerated() {
-            habit.order = index
-        }
-        
-        try? modelContext.save()
-    }
 }
 
 #Preview {
-    ContentView()
+    HabitListView()
         .modelContainer(PreviewContainer.container)
 }
