@@ -27,3 +27,6 @@ Follow the journey of building FocusFlow step-by-step, from creating the initial
 
 ### Step 7: Delete Habits
 - <doc:DeleteHabit>
+
+### Step 8: ReOrder Habits
+- <doc:ReOrderHabits>

@@ -11,6 +11,7 @@ import SwiftData
 final class Habit {
     var name: String
     var isCompleted: Bool
+    var order: Int = 0
     
     init(name: String, isCompleted: Bool = false) {
         self.name = name
