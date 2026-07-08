@@ -6,31 +6,45 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
-    @State private var habits: [Habit] = [
-        .init(name: "Workout", isCompleted: false),
-        .init(name: "Read", isCompleted: false),
-        .init(name: "Practice Swift", isCompleted: false)
-    ]
+    @Environment(\.modelContext) private var modelContext
+    @Query private var habits: [Habit]
     
     @State private var showingCreateHabit = false
     
     var body: some View {
         NavigationStack {
-            List {
-                ForEach(habits.indices, id: \.self) { index in
-                    HStack {
-                        Text(habits[index].name)
-                            .strikethrough(habits[index].isCompleted)
-                            .foregroundStyle(habits[index].isCompleted ? .secondary : .primary)
-                        
-                        Spacer()
-                        
-                        Image(systemName: habits[index].isCompleted ? "checkmark.circle.fill" : "circle")
+            Group {
+                if habits.isEmpty {
+                    ContentUnavailableView {
+                        Label("No Habits", systemImage: "checklist")
+                    } description: {
+                        Text("Create a habit to get started")
+                    } actions: {
+                        Button("Add Habit", systemImage: "plus") {
+                            showingCreateHabit = true
+                        }
+                        .buttonStyle(.glassProminent)
+                        .controlSize(.extraLarge)
                     }
-                    .onTapGesture {
-                        habits[index].toggle()
+                } else {
+                    List {
+                        ForEach(habits) { habit in
+                            HStack {
+                                Text(habit.name)
+                                    .strikethrough(habit.isCompleted)
+                                    .foregroundStyle(habit.isCompleted ? .secondary : .primary)
+                                
+                                Spacer()
+                                
+                                Image(systemName: habit.isCompleted ? "checkmark.circle.fill" : "circle")
+                            }
+                            .onTapGesture {
+                                habit.toggle()
+                            }
+                        }
                     }
                 }
             }
@@ -51,7 +65,13 @@ struct ContentView: View {
     }
     
     private func addHabit(_ newHabit: Habit) {
-        habits.append(newHabit)
+        modelContext.insert(newHabit)
+        do {
+            try modelContext.save()
+        } catch {
+            // FIXME: should remove print statement when going into production.
+            print(error)
+        }
     }
 }
 

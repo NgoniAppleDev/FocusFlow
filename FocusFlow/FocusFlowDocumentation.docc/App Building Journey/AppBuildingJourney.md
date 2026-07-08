@@ -18,3 +18,6 @@ Follow the journey of building FocusFlow step-by-step, from creating the initial
 
 ### Step 4: Add a Habit
 - <doc:AddHabit>
+
+### Step 5: Persist Habits
+- <doc:PersistHabits>
