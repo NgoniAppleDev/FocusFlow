@@ -5,13 +5,19 @@
 //  Created by Ngoni Katsidzira  on 7/7/2026.
 //
 
-import Foundation
+import SwiftData
 
-struct Habit {
-    let name: String
+@Model
+final class Habit {
+    var name: String
     var isCompleted: Bool
     
-    mutating func toggle() {
+    init(name: String, isCompleted: Bool) {
+        self.name = name
+        self.isCompleted = isCompleted
+    }
+    
+    func toggle() {
         isCompleted.toggle()
     }
 }

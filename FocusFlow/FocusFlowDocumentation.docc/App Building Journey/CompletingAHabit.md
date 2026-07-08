@@ -1,4 +1,4 @@
-# Completing a Habit
+# 3. Completing a Habit
 
 Toggle between completed and not-completed when a habit is pressed.
 

@@ -25,9 +25,7 @@ struct CreateHabitView: View {
     
     var body: some View {
         Form {
-            Section("Habit") {
-                TextField("name", text: $habitName)
-            }
+            TextField("name", text: $habitName)
         }
         .navigationTitle("New Habit")
         .toolbar {
