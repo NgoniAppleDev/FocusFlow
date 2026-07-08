@@ -10,7 +10,8 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query private var habits: [Habit]
+    @Query(sort: \Habit.order)
+    private var habits: [Habit]
     
     @State private var showingCreateHabit = false
     
@@ -46,6 +47,9 @@ struct ContentView: View {
                             }
                         }
                         .onDelete(perform: deleteHabits)
+                        .onMove { indices, newOffset in
+                            moveHabit(from: indices, to: newOffset)
+                        }
                     }
                 }
             }
@@ -83,6 +87,18 @@ struct ContentView: View {
         for index in offsets {
             modelContext.delete(habits[index])
         }
+    }
+    
+    private func moveHabit(from indexSet: IndexSet, to newOffset: Int) {
+        var reorderedHabits = habits
+        
+        reorderedHabits.move(fromOffsets: indexSet, toOffset: newOffset)
+        
+        for (index, habit) in reorderedHabits.enumerated() {
+            habit.order = index
+        }
+        
+        try? modelContext.save()
     }
 }
 

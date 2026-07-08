@@ -18,7 +18,10 @@ enum PreviewContainer {
             
             let context = ModelContext(container)
             
-            SampleData.habits.forEach(context.insert)
+            SampleData.habits.enumerated().forEach { index, habit in
+                habit.order = index
+                context.insert(habit)
+            }
             
             try context.save()
             
