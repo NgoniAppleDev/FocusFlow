@@ -21,3 +21,6 @@ Follow the journey of building FocusFlow step-by-step, from creating the initial
 
 ### Step 5: Persist Habits
 - <doc:PersistHabits>
+
+### Step 6: Add SwiftData Preview Support
+- <doc:SwiftDataPreviewSupport>

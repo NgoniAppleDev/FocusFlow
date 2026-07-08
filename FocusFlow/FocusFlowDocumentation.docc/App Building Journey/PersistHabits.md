@@ -2,6 +2,11 @@
 
 Save habits across app launches with SwiftData.
 
+## Git Checkpoint
+```bash
+git checkout -b feat/persist-habits
+```
+
 ## Product Story
 ```
 "As a user, I expect my habits to still be thee when I reopen the app."
@@ -171,5 +176,12 @@ private func addHabit(_ newHabit: Habit) {
 +--------------------------------------+
 ```
 
+## Git Checkpoint
+```bash
+git add .
+git commit -m "feat: persist habits with SwiftData"
+```
+
 
 ## Next Up
+- <doc:SwiftDataPreviewSupport>
