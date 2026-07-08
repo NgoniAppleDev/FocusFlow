@@ -84,5 +84,5 @@ git commit -m "chore: add SwiftData preview support"
 ```
 
 ## Next Up
-- 
+- <doc:DeleteHabit>
 
