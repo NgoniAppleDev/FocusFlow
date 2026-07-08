@@ -35,7 +35,7 @@ struct CreateHabitView: View {
             
             ToolbarItem(placement: .confirmationAction) {
                 Button("Create", role: .confirm) {
-                    let newHabit = Habit(name: habitName.trimmedString, isCompleted: false)
+                    let newHabit = Habit(name: habitName.trimmedString)
                     
                     onCreate(newHabit)
                     
