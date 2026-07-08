@@ -12,7 +12,7 @@ final class Habit {
     var name: String
     var isCompleted: Bool
     
-    init(name: String, isCompleted: Bool) {
+    init(name: String, isCompleted: Bool = false) {
         self.name = name
         self.isCompleted = isCompleted
     }
