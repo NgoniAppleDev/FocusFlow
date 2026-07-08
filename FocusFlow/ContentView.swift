@@ -45,6 +45,7 @@ struct ContentView: View {
                                 habit.toggle()
                             }
                         }
+                        .onDelete(perform: deleteHabits)
                     }
                 }
             }
@@ -54,6 +55,10 @@ struct ContentView: View {
                     Button("Add", systemImage: "plus") {
                         showingCreateHabit = true
                     }
+                }
+                
+                ToolbarItem(placement: .secondaryAction) {
+                    EditButton()
                 }
             }
             .sheet(isPresented: $showingCreateHabit) {
@@ -71,6 +76,12 @@ struct ContentView: View {
         } catch {
             // FIXME: should remove print statement when going into production.
             print(error)
+        }
+    }
+    
+    private func deleteHabits(at offsets: IndexSet) {
+        for index in offsets {
+            modelContext.delete(habits[index])
         }
     }
 }
