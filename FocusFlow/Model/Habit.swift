@@ -11,25 +11,35 @@ import SwiftUI
 @Model
 final class Habit {
     var name: String
-    var isCompleted: Bool
     var order: Int = 0
-    var lastCompletedDate: Date? = nil
     
-    init(name: String, isCompleted: Bool = false) {
+    @Relationship(deleteRule: .cascade)
+    var completions: [HabitCompletion] = []
+    
+    init(name: String) {
         self.name = name
-        self.isCompleted = isCompleted
+    }
+}
+
+extension Habit {
+    
+    func hasCompletion(on date: Date) -> Bool {
+        completions.contains { Calendar.current.isDate($0.date, inSameDayAs: date) }
     }
     
-    func toggle() {
-        isCompleted.toggle()
-        
-        if isCompleted {
-            lastCompletedDate = .now
-        } else if let lastCompletedDate, Calendar.current.isDateInToday(lastCompletedDate) {
-            self.lastCompletedDate = nil
+    func toggleCompletion(on date: Date) {
+        if hasCompletion(on: date) {
+            removeCompletion(on: date)
+        } else {
+            addCompletion(on: date)
         }
-        
-        print("\nHabit Toggled:")
-        print(self.name, self.isCompleted, self.lastCompletedDate)
+    }
+    
+    private func addCompletion(on date: Date) {
+        completions.append(HabitCompletion(date: date))
+    }
+    
+    private func removeCompletion(on date: Date) {
+        completions.removeAll { Calendar.current.isDate($0.date, inSameDayAs: date) }
     }
 }

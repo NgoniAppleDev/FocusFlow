@@ -24,8 +24,8 @@ final class SwiftDataHabitRepository: HabitRepository {
         save()
     }
     
-    func toggle(_ habit: Habit) {
-        habit.toggle()
+    func toggleCompletion(_ habit: Habit, on date: Date) {
+        habit.toggleCompletion(on: date)
         save()
     }
     
