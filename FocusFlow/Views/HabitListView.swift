@@ -9,12 +9,15 @@ import SwiftUI
 import SwiftData
 
 struct HabitListView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query(sort: \Habit.order)
-    private var habits: [Habit]
-    
-    @State private var viewModel: ViewModel = .init()
+    @Query(sort: \Habit.order) private var habits: [Habit]
+    @State private var viewModel: ViewModel
     @State private var showingCreateHabit = false
+    
+    init(repository: HabitRepository) {
+        _viewModel = State(initialValue: ViewModel(
+            repository: repository
+        ))
+    }
     
     var body: some View {
         NavigationStack {
@@ -44,14 +47,14 @@ struct HabitListView: View {
                                 Image(systemName: habit.isCompleted ? "checkmark.circle.fill" : "circle")
                             }
                             .onTapGesture {
-                                viewModel.toggle(habit, using: modelContext)
+                                viewModel.toggle(habit)
                             }
                         }
                         .onDelete { indexSet in
-                            viewModel.delete(habits, at: indexSet, using: modelContext)
+                            viewModel.delete(habits, at: indexSet)
                         }
                         .onMove { indices, destination in
-                            viewModel.move(habits, from: indices, to: destination, using:modelContext)
+                            viewModel.move(habits, from: indices, to: destination)
                         }
                     }
                 }
@@ -71,7 +74,7 @@ struct HabitListView: View {
             .sheet(isPresented: $showingCreateHabit) {
                 NavigationStack {
                     CreateHabitView { newHabit in
-                        viewModel.add(newHabit, using: modelContext, currentCount: habits.count)
+                        viewModel.add(newHabit, currentCount: habits.count)
                     }
                 }
             }
@@ -80,6 +83,6 @@ struct HabitListView: View {
 }
 
 #Preview {
-    HabitListView()
-        .modelContainer(PreviewContainer.container)
+    HabitListView(repository: PreviewContainer.shared.habitRepository)
+        .modelContainer(PreviewContainer.shared.container)
 }
