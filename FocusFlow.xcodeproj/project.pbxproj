@@ -6,8 +6,19 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		4E8F468C2FFFD45F00BF2F55 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4E0B20812FFCE61B001E81D0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4E0B20882FFCE61B001E81D0;
+			remoteInfo = FocusFlow;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		4E0B20892FFCE61B001E81D0 /* FocusFlow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FocusFlow.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4E8F46882FFFD45F00BF2F55 /* FocusFlowTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FocusFlowTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -16,10 +27,22 @@
 			path = FocusFlow;
 			sourceTree = "<group>";
 		};
+		4E8F46892FFFD45F00BF2F55 /* FocusFlowTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = FocusFlowTests;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		4E0B20862FFCE61B001E81D0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4E8F46852FFFD45F00BF2F55 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -33,6 +56,7 @@
 			isa = PBXGroup;
 			children = (
 				4E0B208B2FFCE61B001E81D0 /* FocusFlow */,
+				4E8F46892FFFD45F00BF2F55 /* FocusFlowTests */,
 				4E0B208A2FFCE61B001E81D0 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				4E0B20892FFCE61B001E81D0 /* FocusFlow.app */,
+				4E8F46882FFFD45F00BF2F55 /* FocusFlowTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -70,6 +95,29 @@
 			productReference = 4E0B20892FFCE61B001E81D0 /* FocusFlow.app */;
 			productType = "com.apple.product-type.application";
 		};
+		4E8F46872FFFD45F00BF2F55 /* FocusFlowTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4E8F46902FFFD45F00BF2F55 /* Build configuration list for PBXNativeTarget "FocusFlowTests" */;
+			buildPhases = (
+				4E8F46842FFFD45F00BF2F55 /* Sources */,
+				4E8F46852FFFD45F00BF2F55 /* Frameworks */,
+				4E8F46862FFFD45F00BF2F55 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4E8F468D2FFFD45F00BF2F55 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				4E8F46892FFFD45F00BF2F55 /* FocusFlowTests */,
+			);
+			name = FocusFlowTests;
+			packageProductDependencies = (
+			);
+			productName = FocusFlowTests;
+			productReference = 4E8F46882FFFD45F00BF2F55 /* FocusFlowTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -82,6 +130,11 @@
 				TargetAttributes = {
 					4E0B20882FFCE61B001E81D0 = {
 						CreatedOnToolsVersion = 26.3;
+					};
+					4E8F46872FFFD45F00BF2F55 = {
+						CreatedOnToolsVersion = 26.3;
+						LastSwiftMigration = 2630;
+						TestTargetID = 4E0B20882FFCE61B001E81D0;
 					};
 				};
 			};
@@ -100,12 +153,20 @@
 			projectRoot = "";
 			targets = (
 				4E0B20882FFCE61B001E81D0 /* FocusFlow */,
+				4E8F46872FFFD45F00BF2F55 /* FocusFlowTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		4E0B20872FFCE61B001E81D0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4E8F46862FFFD45F00BF2F55 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -122,7 +183,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4E8F46842FFFD45F00BF2F55 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4E8F468D2FFFD45F00BF2F55 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4E0B20882FFCE61B001E81D0 /* FocusFlow */;
+			targetProxy = 4E8F468C2FFFD45F00BF2F55 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		4E0B20922FFCE61E001E81D0 /* Debug */ = {
@@ -310,6 +386,51 @@
 			};
 			name = Release;
 		};
+		4E8F468E2FFFD45F00BF2F55 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 43PKX39644;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ngonikatsidzira.FocusFlowTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FocusFlow.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FocusFlow";
+			};
+			name = Debug;
+		};
+		4E8F468F2FFFD45F00BF2F55 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 43PKX39644;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ngonikatsidzira.FocusFlowTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FocusFlow.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FocusFlow";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -327,6 +448,15 @@
 			buildConfigurations = (
 				4E0B20952FFCE61E001E81D0 /* Debug */,
 				4E0B20962FFCE61E001E81D0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4E8F46902FFFD45F00BF2F55 /* Build configuration list for PBXNativeTarget "FocusFlowTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4E8F468E2FFFD45F00BF2F55 /* Debug */,
+				4E8F468F2FFFD45F00BF2F55 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
