@@ -37,15 +37,14 @@ struct HabitListView: View {
                         ForEach(habits) { habit in
                             HStack {
                                 Text(habit.name)
-                                    .strikethrough(habit.isCompleted)
-                                    .foregroundStyle(habit.isCompleted ? .secondary : .primary)
+                                    .foregroundStyle(habit.hasCompletion(on: .now) ? .secondary : .primary)
                                 
                                 Spacer()
                                 
-                                Image(systemName: habit.isCompleted ? "checkmark.circle.fill" : "circle")
+                                Image(systemName: habit.hasCompletion(on: .now) ? "checkmark.circle.fill" : "circle")
                             }
                             .onTapGesture {
-                                viewModel.toggle(habit)
+                                viewModel.toggleCompletion(habit, on: .now)
                             }
                         }
                         .onDelete { indexSet in

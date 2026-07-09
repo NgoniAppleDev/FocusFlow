@@ -22,8 +22,8 @@ extension HabitListView {
             repository.add(habit)
         }
         
-        func toggle(_ habit: Habit) {
-            repository.toggle(habit)
+        func toggleCompletion(_ habit: Habit, on date: Date) {
+            repository.toggleCompletion(habit, on: date)
         }
         
         func delete(_ habits: [Habit], at offsets: IndexSet) {

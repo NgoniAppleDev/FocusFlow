@@ -10,7 +10,7 @@ import SwiftData
 
 class PreviewContainer {
     
-    static let shared = PreviewContainer()
+    @MainActor static let shared = PreviewContainer()
     
     let container: ModelContainer
     let modelContext: ModelContext
@@ -28,6 +28,11 @@ class PreviewContainer {
             
             for (index, habit) in SampleData.habits().enumerated() {
                 habit.order = index
+                
+                if index.isMultiple(of: 2) {
+                    habit.toggleCompletion(on: .now)
+                }
+                
                 modelContext.insert(habit)
             }
             
