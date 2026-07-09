@@ -33,3 +33,6 @@ Follow the journey of building FocusFlow step-by-step, from creating the initial
 
 ### Step 9: Adding the First Design Pattern
 - <doc:FirstDesignPattern_MVVM>
+
+### Step: Tracking Habit Completion
+- <doc:TrackHabitCompletion>
