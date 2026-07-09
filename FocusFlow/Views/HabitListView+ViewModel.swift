@@ -12,9 +12,9 @@ extension HabitListView {
     
     final class ViewModel {
         
-        private let repository: HabitRepository
+        private let repository: any HabitRepository
         
-        init(repository: HabitRepository) {
+        init(repository: any HabitRepository) {
             self.repository = repository
         }
         
@@ -27,7 +27,8 @@ extension HabitListView {
         }
         
         func delete(_ habits: [Habit], at offsets: IndexSet) {
-            repository.delete(habits, at: offsets)
+            let habitsToDelete = offsets.map { habits[$0] }
+            repository.delete(habitsToDelete)
         }
         
         func move(_ habits: [Habit], from indexSet: IndexSet, to destination: Int) {

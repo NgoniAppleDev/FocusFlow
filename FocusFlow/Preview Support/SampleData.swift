@@ -9,10 +9,12 @@ import Foundation
 
 enum SampleData {
     
-    static var habits: [Habit] = [
-        .init(name: "Workout", isCompleted: true),
-        .init(name: "Read"),
-        .init(name: "Practice Swift", isCompleted: true),
-        .init(name: "Walk the dog"),
-    ]
+    static func habits() -> [Habit] {
+        [
+            .init(name: "Workout", isCompleted: true),
+            .init(name: "Read"),
+            .init(name: "Practice Swift", isCompleted: true),
+            .init(name: "Walk the dog"),
+        ]
+    }
 }

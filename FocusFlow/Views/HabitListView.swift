@@ -13,10 +13,8 @@ struct HabitListView: View {
     @State private var viewModel: ViewModel
     @State private var showingCreateHabit = false
     
-    init(repository: HabitRepository) {
-        _viewModel = State(initialValue: ViewModel(
-            repository: repository
-        ))
+    init(viewModel: ViewModel) {
+        _viewModel = State(initialValue: viewModel)
     }
     
     var body: some View {
@@ -83,6 +81,8 @@ struct HabitListView: View {
 }
 
 #Preview {
-    HabitListView(repository: PreviewContainer.shared.habitRepository)
-        .modelContainer(PreviewContainer.shared.container)
+    HabitListView(
+        viewModel: .init(repository: PreviewContainer.shared.habitRepository)
+    )
+    .modelContainer(PreviewContainer.shared.container)
 }

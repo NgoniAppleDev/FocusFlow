@@ -11,12 +11,10 @@ import SwiftData
 @main
 struct FocusFlowApp: App {
     
-    private let appContainer = AppContainer()
-    
     var body: some Scene {
         WindowGroup {
-            HabitListView(repository: appContainer.habitRepository)
+            HabitListRootView()
         }
-        .modelContainer(appContainer.container)
+        .modelContainer(for: Habit.self)
     }
 }
