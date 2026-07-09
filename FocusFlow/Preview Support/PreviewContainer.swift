@@ -8,26 +8,39 @@
 import Foundation
 import SwiftData
 
-enum PreviewContainer {
+class PreviewContainer {
     
-    static let container: ModelContainer = {
-       let configuration = ModelConfiguration(isStoredInMemoryOnly: true)
+    static let shared = PreviewContainer()
+    
+    let container: ModelContainer
+    let modelContext: ModelContext
+    
+    private init() {
+        let configuration = ModelConfiguration(isStoredInMemoryOnly: true)
         
         do {
-            let container = try ModelContainer(for: Habit.self, configurations: configuration)
+            container = try ModelContainer(for: Habit.self, configurations: configuration)
             
-            let context = ModelContext(container)
+            modelContext = ModelContext(container)
             
             SampleData.habits.enumerated().forEach { index, habit in
                 habit.order = index
-                context.insert(habit)
+                modelContext.insert(habit)
             }
             
-            try context.save()
+            try modelContext.save()
             
-            return container
-        } catch {
+        }  catch {
             fatalError("Failed to create preview container: \(error)")
         }
-    }()
+    }
+    
+    
+}
+
+extension PreviewContainer {
+    
+    var habitRepository: HabitRepository {
+        HabitRepository(modelContext: modelContext)
+    }
 }

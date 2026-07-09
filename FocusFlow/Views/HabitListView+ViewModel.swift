@@ -12,47 +12,26 @@ extension HabitListView {
     
     final class ViewModel {
         
-        func add(_ habit: Habit, using modelContext: ModelContext, currentCount: Int) {
-            habit.order = currentCount
-            
-            modelContext.insert(habit)
-            
-            save(using: modelContext)
+        private let repository: HabitRepository
+        
+        init(repository: HabitRepository) {
+            self.repository = repository
         }
         
-        func toggle(_ habit: Habit, using modelContext: ModelContext) {
-            habit.toggle()
-            save(using: modelContext)
+        func add(_ habit: Habit, currentCount: Int) {
+            repository.add(habit, currentCount: currentCount)
         }
         
-        func delete(_ habits: [Habit], at offsets: IndexSet, using modelContext: ModelContext) {
-            for index in offsets {
-                let habit = habits[index]
-                modelContext.delete(habit)
-            }
-            
-            save(using: modelContext)
+        func toggle(_ habit: Habit) {
+            repository.toggle(habit)
         }
         
-        func move(_ habits: [Habit], from indexSet: IndexSet, to newOffset: Int, using modelContext: ModelContext) {
-            var reorderedHabits = habits
-            
-            reorderedHabits.move(fromOffsets: indexSet, toOffset: newOffset)
-            
-            for (index, habit) in reorderedHabits.enumerated() {
-                habit.order = index
-            }
-            
-            save(using: modelContext)
+        func delete(_ habits: [Habit], at offsets: IndexSet) {
+            repository.delete(habits, at: offsets)
         }
         
-        private func save(using modelContext: ModelContext) {
-            do {
-                try modelContext.save()
-            } catch {
-                // FIXME: should remove print statement when going into production.
-                print(error)
-            }
+        func move(_ habits: [Habit], from indexSet: IndexSet, to destination: Int) {
+            repository.move(habits, from: indexSet, to: destination)
         }
     }
 }
