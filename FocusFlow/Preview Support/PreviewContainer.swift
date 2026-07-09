@@ -14,6 +14,7 @@ class PreviewContainer {
     
     let container: ModelContainer
     let modelContext: ModelContext
+    let habitRepository: any HabitRepository
     
     private init() {
         let configuration = ModelConfiguration(isStoredInMemoryOnly: true)
@@ -23,7 +24,9 @@ class PreviewContainer {
             
             modelContext = ModelContext(container)
             
-            SampleData.habits.enumerated().forEach { index, habit in
+            habitRepository = SwiftDataHabitRepository(modelContext: modelContext)
+            
+            for (index, habit) in SampleData.habits().enumerated() {
                 habit.order = index
                 modelContext.insert(habit)
             }
@@ -33,14 +36,5 @@ class PreviewContainer {
         }  catch {
             fatalError("Failed to create preview container: \(error)")
         }
-    }
-    
-    
-}
-
-extension PreviewContainer {
-    
-    var habitRepository: HabitRepository {
-        HabitRepository(modelContext: modelContext)
     }
 }
