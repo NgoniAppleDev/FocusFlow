@@ -23,4 +23,4 @@ jobs:
         run: |
           xcodebuild test \
           -scheme FocusFlow \
-          -destination 'platform=iOS Simulator,name=iPhone 16'
+          -destination 'platform=iOS Simulator,name=iPhone 17'
