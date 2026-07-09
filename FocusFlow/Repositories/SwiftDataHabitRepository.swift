@@ -16,11 +16,11 @@ final class SwiftDataHabitRepository: HabitRepository {
         self.modelContext = modelContext
     }
     
-    func add(_ habit: Habit, currentCount: Int) {
-        habit.order = currentCount
-        
+    func add(_ habit: Habit) {
+        let descriptor = FetchDescriptor<Habit>()
+        let count = (try? modelContext.fetchCount(descriptor)) ?? 0
+        habit.order = count
         modelContext.insert(habit)
-        
         save()
     }
     
@@ -33,19 +33,13 @@ final class SwiftDataHabitRepository: HabitRepository {
         for habit in habits {
             modelContext.delete(habit)
         }
-        
         save()
     }
     
-    func move(_ habits: [Habit], from indexSet: IndexSet, to newOffset: Int) {
-        var reorderedHabits = habits
-        
-        reorderedHabits.move(fromOffsets: indexSet, toOffset: newOffset)
-        
-        for (index, habit) in reorderedHabits.enumerated() {
+    func updateOrder(of habits: [Habit]) {
+        for (index, habit) in habits.enumerated() {
             habit.order = index
         }
-        
         save()
     }
     

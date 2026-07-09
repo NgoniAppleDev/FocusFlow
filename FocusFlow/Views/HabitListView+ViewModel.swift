@@ -18,8 +18,8 @@ extension HabitListView {
             self.repository = repository
         }
         
-        func add(_ habit: Habit, currentCount: Int) {
-            repository.add(habit, currentCount: currentCount)
+        func add(_ habit: Habit) {
+            repository.add(habit)
         }
         
         func toggle(_ habit: Habit) {
@@ -32,7 +32,9 @@ extension HabitListView {
         }
         
         func move(_ habits: [Habit], from indexSet: IndexSet, to destination: Int) {
-            repository.move(habits, from: indexSet, to: destination)
+            var reorderedHabits = habits
+            reorderedHabits.move(fromOffsets: indexSet, toOffset: destination)
+            repository.updateOrder(of: reorderedHabits)
         }
     }
 }
