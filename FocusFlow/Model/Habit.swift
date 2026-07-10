@@ -47,3 +47,10 @@ extension Habit {
         completions.removeAll { Calendar.current.isDate($0.date, inSameDayAs: date) }
     }
 }
+
+extension Habit: CustomStringConvertible {
+    
+    var description: String {
+        return "Habit(name: \(name), order: \(order), completionsCount: \(completions.count))"
+    }
+}

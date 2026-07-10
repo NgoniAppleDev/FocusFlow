@@ -18,6 +18,8 @@ final class SpyHabitRepository: HabitRepository {
     
     var deletedHabits: [Habit]?
     
+    var updatedHabits: [Habit]?
+    
     func add(_ habit: Habit) {
         addedHabit = habit
     }
@@ -32,6 +34,6 @@ final class SpyHabitRepository: HabitRepository {
     }
     
     func updateOrder(of habits: [Habit]) {
-        
+        updatedHabits = habits
     }
 }

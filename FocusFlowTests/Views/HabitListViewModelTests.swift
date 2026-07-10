@@ -65,5 +65,29 @@ struct HabitListViewModelTests {
         #expect(deletedHabits.count == 1)
         #expect(deletedHabits.first === habits[1])
     }
+    
+    @Test
+    func reorderingHabitsDelegatesToRepository() throws {
+        
+        let repository = SpyHabitRepository()
+        
+        let viewModel = HabitListView.ViewModel(repository: repository)
+        
+        let eatHabit = makeHabit(name: "Eat")
+        let sleepHabit = makeHabit(name: "Sleep")
+        let drinkCoffeeHabit = makeHabit(name: "Drink Coffee")
+        let writeCodeHabit = makeHabit(name: "Write Code")
+        
+        let habits: [Habit] = [ eatHabit, sleepHabit, drinkCoffeeHabit, writeCodeHabit ]
+        let originOffsets = IndexSet([1])
+        let destination = 3
+        
+        viewModel.move(habits, from: originOffsets, to: destination)
+        
+        let updatedHabits = try #require(repository.updatedHabits)
+        
+        #expect(updatedHabits.count == 4)
+        #expect(updatedHabits == [ eatHabit, drinkCoffeeHabit, sleepHabit, writeCodeHabit ])
+    }
 
 }
