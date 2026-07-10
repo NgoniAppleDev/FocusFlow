@@ -7,6 +7,6 @@
 
 import Foundation
 
-enum HabitRowAction {
+enum HabitRowIntent {
     case toggleCompletion
 }

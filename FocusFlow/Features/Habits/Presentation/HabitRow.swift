@@ -10,7 +10,7 @@ import SwiftUI
 struct HabitRow: View {
     
     let habit: Habit
-    let onAction: (HabitRowAction) -> Void
+    let onAction: (HabitRowIntent) -> Void
     
     var body: some View {
         HStack {

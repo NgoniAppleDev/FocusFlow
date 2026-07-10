@@ -59,17 +59,19 @@ struct HabitListView: View {
         } else {
             HabitList(
                 habits: habits,
-                onAction: handle,
-                onDelete: { viewModel.delete(habits, at: $0) },
-                onMove: { viewModel.move(habits, from: $0, to: $1) }
+                action: handle,
             )
         }
     }
     
-    private func handle(_ action: HabitRowAction, habit: Habit) {
+    private func handle(_ action: HabitListIntent) {
         switch action {
-        case .toggleCompletion:
+        case .toggle(let habit):
             viewModel.toggleCompletion(habit, on: .now)
+        case .delete(let offsets):
+            viewModel.delete(habits, at: offsets)
+        case .move(let offsets, let destination):
+            viewModel.move(habits, from: offsets, to: destination)
         }
     }
 }

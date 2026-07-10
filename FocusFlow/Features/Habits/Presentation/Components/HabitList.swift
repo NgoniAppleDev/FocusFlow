@@ -10,19 +10,20 @@ import SwiftUI
 struct HabitList: View {
     
     let habits: [Habit]
-    let onAction: (_ action: HabitRowAction, Habit) -> Void
-    let onDelete: (IndexSet) -> Void
-    let onMove: (IndexSet, Int) -> Void
+    let action: (HabitListIntent) -> Void
     
     var body: some View {
         List {
             ForEach(habits) { habit in
-                HabitRow(habit: habit) { action in
-                    onAction(action, habit)
+                HabitRow(habit: habit) { rowAction in
+                    switch rowAction {
+                    case .toggleCompletion:
+                        action(.toggle(habit))
+                    }
                 }
             }
-            .onDelete(perform: onDelete)
-            .onMove(perform: onMove)
+            .onDelete { action(.delete($0)) }
+            .onMove { action(.move($0, $1)) }
         }
     }
 }
@@ -30,8 +31,6 @@ struct HabitList: View {
 #Preview {
     HabitList(
         habits: [.init(name: "Workout"), .init(name: "Read"), .init(name: "Piano")],
-        onAction: { (_, _) in },
-        onDelete: { _ in },
-        onMove: { (_, _) in }
+        action: { _ in }
     )
 }
