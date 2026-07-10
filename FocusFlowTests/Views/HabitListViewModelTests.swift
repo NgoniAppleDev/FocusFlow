@@ -9,10 +9,6 @@ import Testing
 import Foundation
 @testable import FocusFlow
 
-private enum TestsConstants {
-    static let expectedErrorMessage: String = "Something went wrong"
-}
-
 private extension HabitListViewModelTests {
     
     func makeHabit(name: String = "Workout") -> Habit {

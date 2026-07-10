@@ -30,9 +30,7 @@ struct SwiftDataHabitRepositoryTests {
         
         let habits = try stack.context.fetchHabits()
         
-        #expect(habits.count == 1)
-        
-        let savedHabit = try #require(habits.first)
+        let savedHabit = try #require(habits.only)
         
         #expect(savedHabit.name == "Workout")
     }
