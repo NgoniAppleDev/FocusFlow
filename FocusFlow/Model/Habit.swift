@@ -23,6 +23,10 @@ final class Habit {
 
 extension Habit {
     
+    var isCompletedToday: Bool {
+        completions.contains { Calendar.current.isDateInToday($0.date) }
+    }
+    
     func hasCompletion(on date: Date) -> Bool {
         completions.contains { Calendar.current.isDate($0.date, inSameDayAs: date) }
     }
