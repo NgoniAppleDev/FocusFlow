@@ -28,8 +28,7 @@ struct SwiftDataHabitRepositoryTests {
         let habit = makeHabit(name: "Workout")
         stack.repository.add(habit)
         
-        let descriptor = FetchDescriptor<Habit>()
-        let habits = try stack.context.fetch(descriptor)
+        let habits = try stack.context.fetchHabits()
         
         #expect(habits.count == 1)
         
@@ -62,9 +61,68 @@ struct SwiftDataHabitRepositoryTests {
         
         stack.repository.add(habit)
         
-        stack.repository.toggleCompletion(habit, on: .now)
+        let date = Date.now
         
-        #expect(habit.isCompletedToday)
+        stack.repository.toggleCompletion(habit, on: date)
+        
+        let savedHabits = try stack.context.fetchHabits()
+        
+        let savedHabit = try #require(savedHabits.first)
+        
+        #expect(savedHabit.isCompletedToday)
+        #expect(savedHabit.hasCompletion(on: date))
+    }
+    
+    @Test
+    func deletingHabitRemovesHabit() throws {
+        
+        let stack = try TestPersistenceStack()
+        
+        let habit = makeHabit()
+        stack.repository.add(habit)
+        stack.repository.delete([habit])
+        
+        let habits = try stack.context.fetchHabits()
+        
+        #expect(habits.isEmpty)
+    }
+    
+    @Test
+    func deletingHabitRemovesOnlyThatHabit() throws {
+        
+        let stack = try TestPersistenceStack()
+        
+        let habitToBeDeleted = makeHabit()
+        stack.repository.add(habitToBeDeleted)
+        stack.repository.add(makeHabit())
+        stack.repository.add(makeHabit())
+        
+        stack.repository.delete([habitToBeDeleted])
+        
+        let habits = try stack.context.fetchHabits()
+        
+        #expect(habits.count == 2)
+        #expect(!habits.contains(where: { $0.id == habitToBeDeleted.id }))
+    }
+    
+    @Test
+    func updatingOrderAssignsNewIndices() throws {
+        
+        let stack = try TestPersistenceStack()
+        
+        let workout = makeHabit(name: "Workout")
+        let eat = makeHabit(name: "Eat")
+        let sleep = makeHabit(name: "Sleep")
+        
+        stack.repository.add(workout)
+        stack.repository.add(eat)
+        stack.repository.add(sleep)
+        
+        stack.repository.updateOrder(of: [sleep, workout, eat])
+        
+        #expect(sleep.order == 0)
+        #expect(workout.order == 1)
+        #expect(eat.order == 2)
     }
 
 }

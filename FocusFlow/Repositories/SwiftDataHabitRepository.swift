@@ -17,8 +17,7 @@ final class SwiftDataHabitRepository: HabitRepository {
     }
     
     func add(_ habit: Habit) {
-        let descriptor = FetchDescriptor<Habit>()
-        let count = (try? modelContext.fetchCount(descriptor)) ?? 0
+        let count = (try? modelContext.fetchHabitsCount()) ?? 0
         habit.order = count
         modelContext.insert(habit)
         save()
