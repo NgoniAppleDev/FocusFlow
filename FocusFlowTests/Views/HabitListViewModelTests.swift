@@ -89,5 +89,76 @@ struct HabitListViewModelTests {
         #expect(updatedHabits.count == 4)
         #expect(updatedHabits == [ eatHabit, drinkCoffeeHabit, sleepHabit, writeCodeHabit ])
     }
+    
+    @Test
+    func addingHabitFailureSetsErrorMessage() throws {
+        
+        let repository = FailingHabitRepository()
+        
+        let viewModel = HabitListView.ViewModel(repository: repository)
+        
+        let habit = makeHabit()
+        
+        viewModel.add(habit)
+        
+        let errorMessage = try #require(viewModel.errorMessage)
+        
+        #expect(errorMessage == TestsConstants.expectedErrorMessage)
+    }
+    
+    @Test
+    func togglingHabitFailureSetsErrorMessage() throws {
+        
+        let repository = FailingHabitRepository()
+        
+        let viewModel = HabitListView.ViewModel(repository: repository)
+        
+        let habit = makeHabit()
+        
+        let date = Date.now
+        
+        viewModel.toggleCompletion(habit, on: date)
+        
+        let errorMessage = try #require(viewModel.errorMessage)
+        
+        #expect(errorMessage == TestsConstants.expectedErrorMessage)
+    }
+    
+    @Test
+    func deletingHabitFailureSetsErrorMessage() throws {
+        
+        let repository = FailingHabitRepository()
+        
+        let viewModel = HabitListView.ViewModel(repository: repository)
+        
+        let habits = [
+            makeHabit(), makeHabit()
+        ]
+        
+        viewModel.delete(habits, at: IndexSet([0]))
+        
+        let errorMessage = try #require(viewModel.errorMessage)
+        
+        #expect(errorMessage == TestsConstants.expectedErrorMessage)
+    }
+    
+    @Test
+    func movingHabitsFailureSetsErrorMessage() throws {
+        
+        let repository = FailingHabitRepository()
+        
+        let viewModel = HabitListView.ViewModel(repository: repository)
+        
+        let habits = [
+            makeHabit(name: "Workout"),
+            makeHabit(name: "Reading")
+        ]
+        
+        viewModel.move(habits, from: IndexSet([0]), to: 2)
+        
+        let errorMessage = try #require(viewModel.errorMessage)
+        
+        #expect(errorMessage == TestsConstants.expectedErrorMessage)
+    }
 
 }

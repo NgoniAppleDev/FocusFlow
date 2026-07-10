@@ -26,7 +26,7 @@ struct SwiftDataHabitRepositoryTests {
         let stack = try TestPersistenceStack()
         
         let habit = makeHabit(name: "Workout")
-        stack.repository.add(habit)
+        try stack.repository.add(habit)
         
         let habits = try stack.context.fetchHabits()
         
@@ -42,12 +42,12 @@ struct SwiftDataHabitRepositoryTests {
         
         let stack = try TestPersistenceStack()
         
-        stack.repository.add(makeHabit(name: "Workout"))
-        stack.repository.add(makeHabit(name: "Reading"))
+        try stack.repository.add(makeHabit(name: "Workout"))
+        try stack.repository.add(makeHabit(name: "Reading"))
         
         let newHabit = makeHabit(name: "Meditation")
         
-        stack.repository.add(newHabit)
+        try stack.repository.add(newHabit)
         
         #expect(newHabit.order == 2)
     }
@@ -59,11 +59,11 @@ struct SwiftDataHabitRepositoryTests {
         
         let habit = makeHabit()
         
-        stack.repository.add(habit)
+        try stack.repository.add(habit)
         
         let date = Date.now
         
-        stack.repository.toggleCompletion(habit, on: date)
+        try stack.repository.toggleCompletion(habit, on: date)
         
         let savedHabits = try stack.context.fetchHabits()
         
@@ -79,8 +79,8 @@ struct SwiftDataHabitRepositoryTests {
         let stack = try TestPersistenceStack()
         
         let habit = makeHabit()
-        stack.repository.add(habit)
-        stack.repository.delete([habit])
+        try stack.repository.add(habit)
+        try stack.repository.delete([habit])
         
         let habits = try stack.context.fetchHabits()
         
@@ -93,11 +93,11 @@ struct SwiftDataHabitRepositoryTests {
         let stack = try TestPersistenceStack()
         
         let habitToBeDeleted = makeHabit()
-        stack.repository.add(habitToBeDeleted)
-        stack.repository.add(makeHabit())
-        stack.repository.add(makeHabit())
+        try stack.repository.add(habitToBeDeleted)
+        try stack.repository.add(makeHabit())
+        try stack.repository.add(makeHabit())
         
-        stack.repository.delete([habitToBeDeleted])
+        try stack.repository.delete([habitToBeDeleted])
         
         let habits = try stack.context.fetchHabits()
         
@@ -114,11 +114,11 @@ struct SwiftDataHabitRepositoryTests {
         let eat = makeHabit(name: "Eat")
         let sleep = makeHabit(name: "Sleep")
         
-        stack.repository.add(workout)
-        stack.repository.add(eat)
-        stack.repository.add(sleep)
+        try stack.repository.add(workout)
+        try stack.repository.add(eat)
+        try stack.repository.add(sleep)
         
-        stack.repository.updateOrder(of: [sleep, workout, eat])
+        try stack.repository.updateOrder(of: [sleep, workout, eat])
         
         #expect(sleep.order == 0)
         #expect(workout.order == 1)

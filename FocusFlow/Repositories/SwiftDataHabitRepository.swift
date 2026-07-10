@@ -16,38 +16,33 @@ final class SwiftDataHabitRepository: HabitRepository {
         self.modelContext = modelContext
     }
     
-    func add(_ habit: Habit) {
+    func add(_ habit: Habit) throws {
         let count = (try? modelContext.fetchHabitsCount()) ?? 0
         habit.order = count
         modelContext.insert(habit)
-        save()
+        try save()
     }
     
-    func toggleCompletion(_ habit: Habit, on date: Date) {
+    func toggleCompletion(_ habit: Habit, on date: Date) throws {
         habit.toggleCompletion(on: date)
-        save()
+        try save()
     }
     
-    func delete(_ habits: [Habit]) {
+    func delete(_ habits: [Habit]) throws {
         for habit in habits {
             modelContext.delete(habit)
         }
-        save()
+        try save()
     }
     
-    func updateOrder(of habits: [Habit]) {
+    func updateOrder(of habits: [Habit]) throws {
         for (index, habit) in habits.enumerated() {
             habit.order = index
         }
-        save()
+        try save()
     }
     
-    private func save() {
-        do {
-            try modelContext.save()
-        } catch {
-            // FIXME: should remove print statement when going into production.
-            print(error)
-        }
+    private func save() throws {
+        try modelContext.save()
     }
 }

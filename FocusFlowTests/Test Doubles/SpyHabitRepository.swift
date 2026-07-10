@@ -20,20 +20,20 @@ final class SpyHabitRepository: HabitRepository {
     
     var updatedHabits: [Habit]?
     
-    func add(_ habit: Habit) {
+    func add(_ habit: Habit) throws {
         addedHabit = habit
     }
     
-    func toggleCompletion(_ habit: Habit, on date: Date) {
+    func toggleCompletion(_ habit: Habit, on date: Date) throws {
         toggledHabit = habit
         toggledDate = date
     }
     
-    func delete(_ habits: [Habit]) {
+    func delete(_ habits: [Habit]) throws {
         deletedHabits = habits
     }
     
-    func updateOrder(of habits: [Habit]) {
+    func updateOrder(of habits: [Habit]) throws {
         updatedHabits = habits
     }
 }
