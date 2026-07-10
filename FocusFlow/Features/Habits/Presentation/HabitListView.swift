@@ -55,26 +55,12 @@ struct HabitListView: View {
                 showingCreateHabit = true
             }
         } else {
-            habitList
-        }
-    }
-    
-    private var habitList: some View {
-        List {
-            ForEach(habits) { habit in
-                HabitRow(habit: habit) { action in
-                    switch action {
-                    case .toggleCompletion:
-                        viewModel.toggleCompletion(habit, on: .now)
-                    }
-                }
-            }
-            .onDelete { indexSet in
-                viewModel.delete(habits, at: indexSet)
-            }
-            .onMove { indices, destination in
-                viewModel.move(habits, from: indices, to: destination)
-            }
+            HabitList(
+                habits: habits,
+                onAction: handleAction,
+                onDelete: { viewModel.delete(habits, at: $0) },
+                onMove: { viewModel.move(habits, from: $0, to: $1) }
+            )
         }
     }
     
@@ -88,6 +74,13 @@ struct HabitListView: View {
         
         ToolbarItem(placement: .topBarLeading) {
             EditButton()
+        }
+    }
+    
+    private func handleAction(action: HabitRowAction, habit: Habit) {
+        switch action {
+        case .toggleCompletion:
+            viewModel.toggleCompletion(habit, on: .now)
         }
     }
 }
