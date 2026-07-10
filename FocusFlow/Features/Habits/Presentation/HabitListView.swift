@@ -20,55 +20,59 @@ struct HabitListView: View {
     
     var body: some View {
         NavigationStack {
-            Group {
-                if habits.isEmpty {
-                    ContentUnavailableView {
-                        Label("No Habits", systemImage: "checklist")
-                    } description: {
-                        Text("Create a habit to get started")
-                    } actions: {
-                        Button("Add Habit", systemImage: "plus") {
-                            showingCreateHabit = true
-                        }
-                        .buttonStyle(.glassProminent)
-                        .controlSize(.extraLarge)
-                    }
-                } else {
-                    List {
-                        ForEach(habits) { habit in
-                            HabitRow(habit: habit) { action in
-                                switch action {
-                                case .toggleCompletion:
-                                    viewModel.toggleCompletion(habit, on: .now)
-                                }
-                            }
-                        }
-                        .onDelete { indexSet in
-                            viewModel.delete(habits, at: indexSet)
-                        }
-                        .onMove { indices, destination in
-                            viewModel.move(habits, from: indices, to: destination)
-                        }
-                    }
-                }
-            }
+            content
             .navigationTitle("FocusFlow")
             .toolbar {
-                ToolbarItem(placement: .primaryAction) {
-                    Button("Add", systemImage: "plus") {
-                        showingCreateHabit = true
-                    }
-                }
-                
-                ToolbarItem(placement: .topBarLeading) {
-                    EditButton()
-                }
+                toolbar
             }
             .sheet(isPresented: $showingCreateHabit) {
                 NavigationStack {
                     CreateHabitView(onCreate: viewModel.add(_:))
                 }
             }
+        }
+    }
+    
+    @ViewBuilder
+    private var content: some View {
+        if habits.isEmpty {
+            HabitEmptyStateView {
+                showingCreateHabit = true
+            }
+        } else {
+            habitList
+        }
+    }
+    
+    private var habitList: some View {
+        List {
+            ForEach(habits) { habit in
+                HabitRow(habit: habit) { action in
+                    switch action {
+                    case .toggleCompletion:
+                        viewModel.toggleCompletion(habit, on: .now)
+                    }
+                }
+            }
+            .onDelete { indexSet in
+                viewModel.delete(habits, at: indexSet)
+            }
+            .onMove { indices, destination in
+                viewModel.move(habits, from: indices, to: destination)
+            }
+        }
+    }
+    
+    @ToolbarContentBuilder
+    private var toolbar: some ToolbarContent {
+        ToolbarItem(placement: .primaryAction) {
+            Button("Add", systemImage: "plus") {
+                showingCreateHabit = true
+            }
+        }
+        
+        ToolbarItem(placement: .topBarLeading) {
+            EditButton()
         }
     }
 }
