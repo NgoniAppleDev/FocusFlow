@@ -10,10 +10,11 @@ import SwiftData
 
 struct HabitListView: View {
     @Query(sort: \Habit.order) private var habits: [Habit]
-    @State private var viewModel: ViewModel
+    
+    @State private var viewModel: HabitListViewModel
     @State private var showingCreateHabit = false
     
-    init(viewModel: ViewModel) {
+    init(viewModel: HabitListViewModel) {
         _viewModel = State(initialValue: viewModel)
     }
     
@@ -35,16 +36,11 @@ struct HabitListView: View {
                 } else {
                     List {
                         ForEach(habits) { habit in
-                            HStack {
-                                Text(habit.name)
-                                    .foregroundStyle(habit.hasCompletion(on: .now) ? .secondary : .primary)
-                                
-                                Spacer()
-                                
-                                Image(systemName: habit.hasCompletion(on: .now) ? "checkmark.circle.fill" : "circle")
-                            }
-                            .onTapGesture {
-                                viewModel.toggleCompletion(habit, on: .now)
+                            HabitRow(habit: habit) { action in
+                                switch action {
+                                case .toggleCompletion:
+                                    viewModel.toggleCompletion(habit, on: .now)
+                                }
                             }
                         }
                         .onDelete { indexSet in
