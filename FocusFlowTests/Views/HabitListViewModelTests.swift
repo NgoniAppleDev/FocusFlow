@@ -107,14 +107,21 @@ struct HabitListViewModelTests {
         
         viewModel.add(name: " ")
         
-        let errorState = try #require(viewModel.errorState)
+        let error = try #require(viewModel.error)
         
-        #expect(errorState == .emptyHabitName)
+        #expect(error == .emptyHabitName)
         #expect(repository.addedHabit == nil)
     }
     
-    @Test(arguments: [ViewModelAction.add, .toggle, .delete, .move])
-    func repositoryFailureSetsErrorMessage(action: ViewModelAction) throws {
+    @Test(
+        arguments: [
+            (ViewModelAction.add, HabitError.unableToSave),
+            (.toggle, .unableToToggle),
+            (.delete, .unableToDelete),
+            (.move, .unableToUpdateOrder)
+        ]
+    )
+    func repositoryFailureSetsErrorMessage(action: ViewModelAction, expectedError: HabitError) throws {
         
         let repository = FailingHabitRepository()
         
@@ -133,9 +140,9 @@ struct HabitListViewModelTests {
             viewModel.move([makeHabit(name: "Eat less food"), habit], from: IndexSet([0]), to: 1)
         }
         
-        let errorMessage = try #require(viewModel.errorMessage)
+        let error = try #require(viewModel.error)
         
-        #expect(errorMessage == TestsConstants.expectedErrorMessage)
+        #expect(error == expectedError)
     }
 
 }
