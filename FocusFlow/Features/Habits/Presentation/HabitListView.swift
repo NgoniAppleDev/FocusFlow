@@ -27,7 +27,7 @@ struct HabitListView: View {
             }
             .sheet(isPresented: $showingCreateHabit) {
                 NavigationStack {
-                    CreateHabitView(onCreate: viewModel.add(_:))
+                    CreateHabitView(onCreate: viewModel.add )
                 }
             }
         }

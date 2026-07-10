@@ -15,12 +15,22 @@ final class HabitListViewModel {
     private let repository: any HabitRepository
     
     var errorMessage: String?
+    var errorState: HabitError?
     
     init(repository: any HabitRepository) {
         self.repository = repository
     }
     
-    func add(_ habit: Habit) {
+    func add(name: String) {
+        let trimmedName = name.trimmedString
+        
+        guard !trimmedName.isTrimmedEmpty else {
+            errorState = .emptyHabitName
+            return
+        }
+        
+        let habit = Habit(name: trimmedName)
+        
         do {
             try repository.add(habit)
         } catch {

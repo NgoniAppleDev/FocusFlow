@@ -7,21 +7,11 @@
 
 import SwiftUI
 
-extension String {
-    var isTrimmedEmpty: Bool {
-        self.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-    }
-    
-    var trimmedString: String {
-        self.trimmingCharacters(in: .whitespacesAndNewlines)
-    }
-}
-
 struct CreateHabitView: View {
     @State private var habitName = ""
     @Environment(\.dismiss) private var dismiss
     
-    let onCreate: (Habit) -> Void
+    let onCreate: (String) -> Void
     
     var body: some View {
         Form {
@@ -35,9 +25,8 @@ struct CreateHabitView: View {
             
             ToolbarItem(placement: .confirmationAction) {
                 Button("Create", role: .confirm) {
-                    let newHabit = Habit(name: habitName.trimmedString)
                     
-                    onCreate(newHabit)
+                    onCreate(habitName.trimmedString)
                     
                     dismiss()
                 }
