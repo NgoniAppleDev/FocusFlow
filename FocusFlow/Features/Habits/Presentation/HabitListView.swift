@@ -23,27 +23,16 @@ struct HabitListView: View {
             content
             .navigationTitle("FocusFlow")
             .toolbar {
-                toolbar
+                HabitListToolbar {
+                    showingCreateHabit = true
+                }
             }
             .sheet(isPresented: $showingCreateHabit) {
                 NavigationStack {
                     CreateHabitView(onCreate: viewModel.add )
                 }
             }
-            .alert(
-                isPresented: Binding(
-                    get: { viewModel.error != nil },
-                    set: { isPresented in
-                        if !isPresented {
-                            viewModel.clearError()
-                        }
-                    }
-                ),
-                error: viewModel.error) { error in
-                    Button("OK") { viewModel.clearError() }
-                } message: { error in
-                    Text(error.recoverySuggestion)
-                }
+            .errorAlert(error: $viewModel.error)
 
         }
     }
@@ -55,42 +44,25 @@ struct HabitListView: View {
                 showingCreateHabit = true
             }
         } else {
-            habitList
+            HabitList(
+                habits: habits,
+                action: handle,
+            )
         }
     }
     
-    private var habitList: some View {
-        List {
-            ForEach(habits) { habit in
-                HabitRow(habit: habit) { action in
-                    switch action {
-                    case .toggleCompletion:
-                        viewModel.toggleCompletion(habit, on: .now)
-                    }
-                }
-            }
-            .onDelete { indexSet in
-                viewModel.delete(habits, at: indexSet)
-            }
-            .onMove { indices, destination in
-                viewModel.move(habits, from: indices, to: destination)
-            }
-        }
-    }
-    
-    @ToolbarContentBuilder
-    private var toolbar: some ToolbarContent {
-        ToolbarItem(placement: .primaryAction) {
-            Button("Add", systemImage: "plus") {
-                showingCreateHabit = true
-            }
-        }
-        
-        ToolbarItem(placement: .topBarLeading) {
-            EditButton()
+    private func handle(_ intent: HabitListIntent) {
+        switch intent {
+        case .toggle(let habit):
+            viewModel.toggleCompletion(habit, on: .now)
+        case .delete(let offsets):
+            viewModel.delete(habits, at: offsets)
+        case .move(let offsets, let destination):
+            viewModel.move(habits, from: offsets, to: destination)
         }
     }
 }
+
 
 #Preview {
     HabitListView(
