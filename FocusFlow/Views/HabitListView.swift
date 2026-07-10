@@ -36,8 +36,11 @@ struct HabitListView: View {
                 } else {
                     List {
                         ForEach(habits) { habit in
-                            HabitRow(habit: habit) {
-                                viewModel.toggleCompletion(habit, on: .now)
+                            HabitRow(habit: habit) { action in
+                                switch action {
+                                case .toggleCompletion:
+                                    viewModel.toggleCompletion(habit, on: .now)
+                                }
                             }
                         }
                         .onDelete { indexSet in

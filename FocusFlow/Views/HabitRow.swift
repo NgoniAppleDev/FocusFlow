@@ -10,7 +10,7 @@ import SwiftUI
 struct HabitRow: View {
     
     let habit: Habit
-    let onToggle: () -> Void
+    let onAction: (HabitRowAction) -> Void
     
     var body: some View {
         HStack {
@@ -22,10 +22,10 @@ struct HabitRow: View {
             Image(systemName: habit.hasCompletion(on: .now) ? "checkmark.circle.fill" : "circle")
         }
         .contentShape(.rect)
-        .onTapGesture(perform: onToggle)
+        .onTapGesture { onAction(.toggleCompletion) }
     }
 }
 
 #Preview {
-    HabitRow(habit: .init(name: "Workout"), onToggle: {})
+    HabitRow(habit: .init(name: "Workout"), onAction: { _ in })
 }
