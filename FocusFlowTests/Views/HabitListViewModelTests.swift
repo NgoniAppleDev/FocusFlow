@@ -31,7 +31,7 @@ struct HabitListViewModelTests {
         
         let repository = SpyHabitRepository()
         
-        let viewModel = HabitListView.ViewModel(repository: repository)
+        let viewModel = HabitListViewModel(repository: repository)
         
         let habit = makeHabit()
         
@@ -45,7 +45,7 @@ struct HabitListViewModelTests {
         
         let repository = SpyHabitRepository()
         
-        let viewModel = HabitListView.ViewModel(repository: repository)
+        let viewModel = HabitListViewModel(repository: repository)
         
         let habit = makeHabit()
         let today = Date.now
@@ -61,7 +61,7 @@ struct HabitListViewModelTests {
         
         let repository = SpyHabitRepository()
         
-        let viewModel = HabitListView.ViewModel(repository: repository)
+        let viewModel = HabitListViewModel(repository: repository)
         
         let habits: [Habit] = [makeHabit(), makeHabit(), makeHabit()]
         let offsets = IndexSet([1])
@@ -79,7 +79,7 @@ struct HabitListViewModelTests {
         
         let repository = SpyHabitRepository()
         
-        let viewModel = HabitListView.ViewModel(repository: repository)
+        let viewModel = HabitListViewModel(repository: repository)
         
         let eatHabit = makeHabit(name: "Eat")
         let sleepHabit = makeHabit(name: "Sleep")
@@ -103,7 +103,7 @@ struct HabitListViewModelTests {
         
         let repository = FailingHabitRepository()
         
-        let viewModel = HabitListView.ViewModel(repository: repository)
+        let viewModel = HabitListViewModel(repository: repository)
         
         let habit = makeHabit()
         

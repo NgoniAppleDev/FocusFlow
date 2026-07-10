@@ -10,10 +10,10 @@ import SwiftData
 
 struct HabitListView: View {
     @Query(sort: \Habit.order) private var habits: [Habit]
-    @State private var viewModel: ViewModel
+    @State private var viewModel: HabitListViewModel
     @State private var showingCreateHabit = false
     
-    init(viewModel: ViewModel) {
+    init(viewModel: HabitListViewModel) {
         _viewModel = State(initialValue: viewModel)
     }
     
