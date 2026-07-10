@@ -17,7 +17,7 @@ private extension SwiftDataHabitRepositoryTests {
     }
 }
 
-@MainActor
+@MainActor @Suite("SwiftData Repository Tests", .tags(.repository, .persistence, .swiftData))
 struct SwiftDataHabitRepositoryTests {
 
     @Test

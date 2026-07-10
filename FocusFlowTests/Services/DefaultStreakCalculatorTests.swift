@@ -26,6 +26,7 @@ private extension Date {
     }
 }
 
+@Suite("Default Streak Calculator Test", .tags(.domain))
 struct DefaultStreakCalculatorTests {
     
     private let calculator = DefaultStreakCalculator()

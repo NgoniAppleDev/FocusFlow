@@ -9,6 +9,10 @@ import Testing
 import Foundation
 @testable import FocusFlow
 
+private enum TestsConstants {
+    static let expectedErrorMessage: String = "Something went wrong"
+}
+
 private extension HabitListViewModelTests {
     
     func makeHabit(name: String = "Workout") -> Habit {
@@ -16,7 +20,15 @@ private extension HabitListViewModelTests {
     }
 }
 
+@Suite("Habit List ViewModel Tests", .tags(.viewModel))
 struct HabitListViewModelTests {
+    
+    enum ViewModelAction {
+        case add
+        case toggle
+        case delete
+        case move
+    }
 
     @Test
     func addingHabitDelegatesToRepository() {
@@ -90,8 +102,8 @@ struct HabitListViewModelTests {
         #expect(updatedHabits == [ eatHabit, drinkCoffeeHabit, sleepHabit, writeCodeHabit ])
     }
     
-    @Test
-    func addingHabitFailureSetsErrorMessage() throws {
+    @Test(arguments: [ViewModelAction.add, .toggle, .delete, .move])
+    func repositoryFailureSetsErrorMessage(action: ViewModelAction) throws {
         
         let repository = FailingHabitRepository()
         
@@ -99,62 +111,16 @@ struct HabitListViewModelTests {
         
         let habit = makeHabit()
         
-        viewModel.add(habit)
-        
-        let errorMessage = try #require(viewModel.errorMessage)
-        
-        #expect(errorMessage == TestsConstants.expectedErrorMessage)
-    }
-    
-    @Test
-    func togglingHabitFailureSetsErrorMessage() throws {
-        
-        let repository = FailingHabitRepository()
-        
-        let viewModel = HabitListView.ViewModel(repository: repository)
-        
-        let habit = makeHabit()
-        
-        let date = Date.now
-        
-        viewModel.toggleCompletion(habit, on: date)
-        
-        let errorMessage = try #require(viewModel.errorMessage)
-        
-        #expect(errorMessage == TestsConstants.expectedErrorMessage)
-    }
-    
-    @Test
-    func deletingHabitFailureSetsErrorMessage() throws {
-        
-        let repository = FailingHabitRepository()
-        
-        let viewModel = HabitListView.ViewModel(repository: repository)
-        
-        let habits = [
-            makeHabit(), makeHabit()
-        ]
-        
-        viewModel.delete(habits, at: IndexSet([0]))
-        
-        let errorMessage = try #require(viewModel.errorMessage)
-        
-        #expect(errorMessage == TestsConstants.expectedErrorMessage)
-    }
-    
-    @Test
-    func movingHabitsFailureSetsErrorMessage() throws {
-        
-        let repository = FailingHabitRepository()
-        
-        let viewModel = HabitListView.ViewModel(repository: repository)
-        
-        let habits = [
-            makeHabit(name: "Workout"),
-            makeHabit(name: "Reading")
-        ]
-        
-        viewModel.move(habits, from: IndexSet([0]), to: 2)
+        switch action {
+        case .add:
+            viewModel.add(habit)
+        case .toggle:
+            viewModel.toggleCompletion(habit, on: .now)
+        case .delete:
+            viewModel.delete([habit], at: IndexSet([0]))
+        case .move:
+            viewModel.move([makeHabit(name: "Eat less food"), habit], from: IndexSet([0]), to: 1)
+        }
         
         let errorMessage = try #require(viewModel.errorMessage)
         

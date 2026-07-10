@@ -21,6 +21,7 @@ private extension HabitTests {
     }
 }
 
+@Suite("Habit Model Tests", .tags(.domain))
 struct HabitTests {
     
     @Test
