@@ -10,6 +10,7 @@ import SwiftData
 
 struct HabitListView: View {
     @Query(sort: \Habit.order) private var habits: [Habit]
+    
     @State private var viewModel: HabitListViewModel
     @State private var showingCreateHabit = false
     
@@ -35,15 +36,7 @@ struct HabitListView: View {
                 } else {
                     List {
                         ForEach(habits) { habit in
-                            HStack {
-                                Text(habit.name)
-                                    .foregroundStyle(habit.hasCompletion(on: .now) ? .secondary : .primary)
-                                
-                                Spacer()
-                                
-                                Image(systemName: habit.hasCompletion(on: .now) ? "checkmark.circle.fill" : "circle")
-                            }
-                            .onTapGesture {
+                            HabitRow(habit: habit) {
                                 viewModel.toggleCompletion(habit, on: .now)
                             }
                         }

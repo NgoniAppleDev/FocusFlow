@@ -5,9 +5,11 @@
 //  Created by Ngoni Katsidzira  on 10/7/2026.
 //
 
+import Observation
 import SwiftData
 import SwiftUI
 
+@Observable
 final class HabitListViewModel {
     
     private let repository: any HabitRepository
