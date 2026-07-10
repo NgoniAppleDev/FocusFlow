@@ -32,20 +32,7 @@ struct HabitListView: View {
                     CreateHabitView(onCreate: viewModel.add )
                 }
             }
-            .alert(
-                isPresented: Binding(
-                    get: { viewModel.error != nil },
-                    set: { isPresented in
-                        if !isPresented {
-                            viewModel.clearError()
-                        }
-                    }
-                ),
-                error: viewModel.error) { error in
-                    Button("OK") { viewModel.clearError() }
-                } message: { error in
-                    Text(error.recoverySuggestion)
-                }
+            .errorAlert(error: $viewModel.error)
 
         }
     }
@@ -64,8 +51,8 @@ struct HabitListView: View {
         }
     }
     
-    private func handle(_ action: HabitListIntent) {
-        switch action {
+    private func handle(_ intent: HabitListIntent) {
+        switch intent {
         case .toggle(let habit):
             viewModel.toggleCompletion(habit, on: .now)
         case .delete(let offsets):
@@ -75,6 +62,7 @@ struct HabitListView: View {
         }
     }
 }
+
 
 #Preview {
     HabitListView(
