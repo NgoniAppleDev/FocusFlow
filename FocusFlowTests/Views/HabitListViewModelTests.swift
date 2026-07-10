@@ -27,17 +27,17 @@ struct HabitListViewModelTests {
     }
 
     @Test
-    func addingHabitDelegatesToRepository() {
+    func addingHabitDelegatesToRepository() throws {
         
         let repository = SpyHabitRepository()
         
         let viewModel = HabitListViewModel(repository: repository)
         
-        let habit = makeHabit()
+        viewModel.add(name: "Workout")
         
-        viewModel.add(habit)
+        let addedHabit = try #require(repository.addedHabit)
         
-        #expect(repository.addedHabit === habit)
+        #expect(addedHabit.name == "Workout")
     }
     
     @Test
@@ -98,8 +98,30 @@ struct HabitListViewModelTests {
         #expect(updatedHabits == [ eatHabit, drinkCoffeeHabit, sleepHabit, writeCodeHabit ])
     }
     
-    @Test(arguments: [ViewModelAction.add, .toggle, .delete, .move])
-    func repositoryFailureSetsErrorMessage(action: ViewModelAction) throws {
+    @Test
+    func addingEmptyHabitNameDoesNotCallRepository() throws {
+        
+        let repository = SpyHabitRepository()
+        
+        let viewModel = HabitListViewModel(repository: repository)
+        
+        viewModel.add(name: " ")
+        
+        let error = try #require(viewModel.error)
+        
+        #expect(error == .emptyHabitName)
+        #expect(repository.addedHabit == nil)
+    }
+    
+    @Test(
+        arguments: [
+            (ViewModelAction.add, HabitError.unableToSave),
+            (.toggle, .unableToToggle),
+            (.delete, .unableToDelete),
+            (.move, .unableToUpdateOrder)
+        ]
+    )
+    func repositoryFailureSetsErrorMessage(action: ViewModelAction, expectedError: HabitError) throws {
         
         let repository = FailingHabitRepository()
         
@@ -109,7 +131,7 @@ struct HabitListViewModelTests {
         
         switch action {
         case .add:
-            viewModel.add(habit)
+            viewModel.add(name: "Workout")
         case .toggle:
             viewModel.toggleCompletion(habit, on: .now)
         case .delete:
@@ -118,9 +140,9 @@ struct HabitListViewModelTests {
             viewModel.move([makeHabit(name: "Eat less food"), habit], from: IndexSet([0]), to: 1)
         }
         
-        let errorMessage = try #require(viewModel.errorMessage)
+        let error = try #require(viewModel.error)
         
-        #expect(errorMessage == TestsConstants.expectedErrorMessage)
+        #expect(error == expectedError)
     }
 
 }

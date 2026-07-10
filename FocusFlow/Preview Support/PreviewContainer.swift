@@ -25,6 +25,7 @@ class PreviewContainer {
             modelContext = ModelContext(container)
             
             habitRepository = SwiftDataHabitRepository(modelContext: modelContext)
+//            habitRepository = FailureHabitRepository()
             
             for (index, habit) in SampleData.habits().enumerated() {
                 habit.order = index

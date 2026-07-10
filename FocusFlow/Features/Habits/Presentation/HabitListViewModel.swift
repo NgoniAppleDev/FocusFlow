@@ -14,44 +14,69 @@ final class HabitListViewModel {
     
     private let repository: any HabitRepository
     
-    var errorMessage: String?
+    var error: HabitError?
     
     init(repository: any HabitRepository) {
         self.repository = repository
     }
     
-    func add(_ habit: Habit) {
+    func add(name: String) {
+        
+        clearError()
+        
+        let trimmedName = name.trimmedString
+        
+        guard !trimmedName.isTrimmedEmpty else {
+            error = .emptyHabitName
+            return
+        }
+        
+        let habit = Habit(name: trimmedName)
+        
         do {
             try repository.add(habit)
-        } catch {
-            errorMessage = error.localizedDescription
+        } catch(_) {
+            error = .unableToSave
         }
     }
     
     func toggleCompletion(_ habit: Habit, on date: Date) {
+        
+        clearError()
+        
         do {
             try repository.toggleCompletion(habit, on: date)
-        }  catch {
-            errorMessage = error.localizedDescription
+        }  catch(_) {
+            error = .unableToToggle
         }
     }
     
     func delete(_ habits: [Habit], at offsets: IndexSet) {
+        
+        clearError()
+        
         do {
             let habitsToDelete = offsets.map { habits[$0] }
             try repository.delete(habitsToDelete)
-        }  catch {
-            errorMessage = error.localizedDescription
+        }  catch(_) {
+            error = .unableToDelete
         }
     }
     
     func move(_ habits: [Habit], from indexSet: IndexSet, to destination: Int) {
+        
+        clearError()
+        
         do {
             var reorderedHabits = habits
             reorderedHabits.move(fromOffsets: indexSet, toOffset: destination)
             try repository.updateOrder(of: reorderedHabits)
-        }  catch {
-            errorMessage = error.localizedDescription
+        }  catch(_) {
+            error = .unableToUpdateOrder
         }
+    }
+    
+    func clearError() {
+        error = nil
     }
 }

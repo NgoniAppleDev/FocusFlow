@@ -27,9 +27,24 @@ struct HabitListView: View {
             }
             .sheet(isPresented: $showingCreateHabit) {
                 NavigationStack {
-                    CreateHabitView(onCreate: viewModel.add(_:))
+                    CreateHabitView(onCreate: viewModel.add )
                 }
             }
+            .alert(
+                isPresented: Binding(
+                    get: { viewModel.error != nil },
+                    set: { isPresented in
+                        if !isPresented {
+                            viewModel.clearError()
+                        }
+                    }
+                ),
+                error: viewModel.error) { error in
+                    Button("OK") { viewModel.clearError() }
+                } message: { error in
+                    Text(error.recoverySuggestion)
+                }
+
         }
     }
     
@@ -80,6 +95,15 @@ struct HabitListView: View {
 #Preview {
     HabitListView(
         viewModel: .init(repository: PreviewContainer.shared.habitRepository)
+    )
+    .modelContainer(PreviewContainer.shared.container)
+}
+
+#Preview("Error State") {
+    HabitListView(
+        viewModel: .init(
+            repository: PreviewFailingHabitRepository()
+        )
     )
     .modelContainer(PreviewContainer.shared.container)
 }
