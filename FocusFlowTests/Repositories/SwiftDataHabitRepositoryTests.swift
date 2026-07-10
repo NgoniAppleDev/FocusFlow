@@ -17,7 +17,7 @@ private extension SwiftDataHabitRepositoryTests {
     }
 }
 
-@MainActor
+@MainActor @Suite("SwiftData Repository Tests", .tags(.repository, .persistence, .swiftData))
 struct SwiftDataHabitRepositoryTests {
 
     @Test
@@ -30,9 +30,7 @@ struct SwiftDataHabitRepositoryTests {
         
         let habits = try stack.context.fetchHabits()
         
-        #expect(habits.count == 1)
-        
-        let savedHabit = try #require(habits.first)
+        let savedHabit = try #require(habits.only)
         
         #expect(savedHabit.name == "Workout")
     }

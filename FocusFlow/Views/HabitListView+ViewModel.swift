@@ -12,7 +12,16 @@ extension HabitListView {
     
     final class ViewModel {
         
+        enum ViewState<Value> {
+            case idle
+            case loading
+            case loaded(Value)
+            case failed(Error)
+        }
+        
         private let repository: any HabitRepository
+        
+        var state: ViewState<[Habit]> = .idle
         
         var errorMessage: String?
         
