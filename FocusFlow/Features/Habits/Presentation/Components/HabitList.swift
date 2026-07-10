@@ -10,7 +10,7 @@ import SwiftUI
 struct HabitList: View {
     
     let habits: [Habit]
-    let onAction: (HabitRowAction, Habit) -> Void
+    let onAction: (_ action: HabitRowAction, Habit) -> Void
     let onDelete: (IndexSet) -> Void
     let onMove: (IndexSet, Int) -> Void
     

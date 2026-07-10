@@ -23,7 +23,9 @@ struct HabitListView: View {
             content
             .navigationTitle("FocusFlow")
             .toolbar {
-                toolbar
+                HabitListToolbar {
+                    showingCreateHabit = true
+                }
             }
             .sheet(isPresented: $showingCreateHabit) {
                 NavigationStack {
@@ -57,27 +59,14 @@ struct HabitListView: View {
         } else {
             HabitList(
                 habits: habits,
-                onAction: handleAction,
+                onAction: handle,
                 onDelete: { viewModel.delete(habits, at: $0) },
                 onMove: { viewModel.move(habits, from: $0, to: $1) }
             )
         }
     }
     
-    @ToolbarContentBuilder
-    private var toolbar: some ToolbarContent {
-        ToolbarItem(placement: .primaryAction) {
-            Button("Add", systemImage: "plus") {
-                showingCreateHabit = true
-            }
-        }
-        
-        ToolbarItem(placement: .topBarLeading) {
-            EditButton()
-        }
-    }
-    
-    private func handleAction(action: HabitRowAction, habit: Habit) {
+    private func handle(_ action: HabitRowAction, habit: Habit) {
         switch action {
         case .toggleCompletion:
             viewModel.toggleCompletion(habit, on: .now)
